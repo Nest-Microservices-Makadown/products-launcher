@@ -6,6 +6,7 @@ Repositorio para lanzar los proyectos con Docker
 
 1. Clonar repo
 2. Crear archivo .env
+3. Ejecutar comando `git submodule update --init --recursive` para reconstruir submodulos
 3. Ejecutar el comando `docker compose up --build`
 
 ### Pasos para crear los Git Submodules
