@@ -1,0 +1,69 @@
+# version: '3' # this option is now obsolete
+
+services:
+
+  orders-db:
+    container_name: orders_database
+    image: postgres:16.2
+    restart: always
+    volumes:
+      - ./orders-ms/postgres:/var/lib/postgresql/data
+    # Commenting this encapsulates port 5432 in the container to be available only for the microservice
+    #ports:
+    #  - 5432:5432
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=abc123
+      - POSTGRES_DB=ordersdb
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+# docker run -d --name nats-server -p 4222:4222 -p 6222:6222 -p 8222:8222 nats
+# However we are gonna use port 4222 only for NATS
+  nats-server:
+    image: nats:latest
+    ports:
+      - 4222:4222
+
+  client-gateway:
+    build: ./client-gateway
+    ports:
+      - ${CLIENT_GATEWAY_PORT}:3000
+    volumes:
+      - ./client-gateway/src:/usr/src/app/src
+    command: npm run start:dev
+    environment:
+      - PORT=3000
+      - NATS_SERVERS=nats://nats-server:4222
+
+  products-ms:
+    build: ./products-ms
+    ports:
+      - 3001:3001
+    volumes:
+      - ./products-ms/src:/usr/src/app/src
+    command: npm run start:dev
+    environment:
+      - PORT=3001
+      - NATS_SERVERS=nats://nats-server:4222
+      - DATABASE_URL=file:./dev.db
+
+  orders-ms:
+    links:
+      - orders-db
+    depends_on:
+      orders-db:
+        condition: service_healthy
+    build: ./orders-ms
+    ports:
+      - 3002:3002
+    volumes:
+      - ./orders-ms/src:/usr/src/app/src
+    command: npm run start:dev
+    environment:
+      - PORT=3002
+      - NATS_SERVERS=nats://nats-server:4222
+      - DATABASE_URL=postgresql://postgres:abc123@orders-db:5432/ordersdb?schema=public
