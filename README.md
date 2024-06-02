@@ -17,6 +17,15 @@ Repositorio para lanzar los proyectos con Docker
 ```
 git submodule add <repository_url> <directory_name>
 ```
+
+ejemplos usados en este proyecto (reemplazar urls por los propios):
+```
+git submodule add https://github.com/Nest-Microservices-Makadown/client-gateway.git client-gateway
+git submodule add https://github.com/Nest-Microservices-Makadown/products-ms.git products-ms
+git submodule add https://github.com/Nest-Microservices-Makadown/orders-ms.git orders-ms
+```
+
+
 4. Añadir los cambios al repositorio (git add, git commit, git push)
 Ej:
 ```
