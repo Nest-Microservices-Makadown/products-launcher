@@ -10,6 +10,15 @@ Repositorio para lanzar los proyectos con Docker
 4. Crear archivos .env para cada submodulo (leer su respectivo README)
 3. Ejecutar el comando `docker compose up --build`
 
+## Prod
+
+1. Clonar repo
+2. Crear archivo .env basado en .env.template
+3. Ejecutar el comando (OJO: No es el mismo como en Dev)
+```
+docker compose -f docker-compose.prod.yml build
+```
+
 ### Pasos para crear los Git Submodules
 
 
