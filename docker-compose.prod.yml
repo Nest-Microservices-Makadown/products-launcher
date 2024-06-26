@@ -32,7 +32,7 @@ services:
     build:
       context: ./client-gateway
       dockerfile: dockerfile.prod
-    image: client-gateway-prod
+    image: us-west2-docker.pkg.dev/productos-microservices/image-registy/client-gateway
     ports:
       - ${CLIENT_GATEWAY_PORT}:3000
     environment:
@@ -43,7 +43,7 @@ services:
     build:
       context: ./products-ms
       dockerfile: dockerfile.prod
-    image: products-ms-prod
+    image: us-west2-docker.pkg.dev/productos-microservices/image-registy/products-ms
     environment:
       - PORT=3001
       - NATS_SERVERS=nats://nats-server:4222
@@ -55,7 +55,7 @@ services:
       dockerfile: dockerfile.prod
       args:
         - ORDERS_DATABASE_URL=${ORDERS_DATABASE_URL}
-    image: orders-ms-prod
+    image: us-west2-docker.pkg.dev/productos-microservices/image-registy/orders-ms
     ports:
       - 3002:3002
     environment:
@@ -70,7 +70,7 @@ services:
     build:
       context: ./payments-ms
       dockerfile: dockerfile.prod
-    image: payments-ms-prod
+    image: us-west2-docker.pkg.dev/productos-microservices/image-registy/payments-ms
     ports:
       - ${PAYMENTS_MS_PORT}:${PAYMENTS_MS_PORT}
     environment:
@@ -88,7 +88,7 @@ services:
     build:
       context: ./auth-ms
       dockerfile: dockerfile.prod
-    image: auth-ms-prod
+    image: us-west2-docker.pkg.dev/productos-microservices/image-registy/auth-ms
     environment:
       - PORT=${AUTH_MS_PORT}
       - NATS_SERVERS=nats://nats-server:4222
