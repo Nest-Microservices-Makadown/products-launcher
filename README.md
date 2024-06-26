@@ -63,4 +63,6 @@ Si se hace al revés, se perderán las referencias de los sub-módulos en el rep
 ## Recursos
 
 https://www.prisma.io/docs/orm/overview/databases/mongodb
+https://cloud.google.com/build/docs/securing-builds/use-secrets?hl=es-419
+
 
