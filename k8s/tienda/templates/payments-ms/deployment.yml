@@ -1,0 +1,49 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  creationTimestamp: null
+  labels:
+    app: payments-ms
+  name: payments-ms
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: payments-ms
+  strategy: {}
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: payments-ms
+    spec:
+      containers:
+      - image: us-west2-docker.pkg.dev/productos-microservices/image-registy/payments-ms
+        name: payments-ms
+        env:
+        - name: PORT
+          value: "3003"
+        - name: NATS_SERVERS
+          value: "nats://nats-server"
+        - name: STRIPE_SECRET_KEY
+          valueFrom:
+            secretKeyRef:
+              name: payments-secrets
+              key: STRIPE_SECRET_KEY
+        - name: STRIPE_WEBHOOK_SECRET
+          valueFrom:
+            secretKeyRef:
+              name: payments-secrets
+              key: STRIPE_WEBHOOK_SECRET
+        - name: STRIPE_SUCCESS_URL
+          valueFrom:
+            secretKeyRef:
+              name: payments-secrets
+              key: STRIPE_SUCCESS_URL
+        - name: STRIPE_CANCEL_URL
+          valueFrom:
+            secretKeyRef:
+              name: payments-secrets
+              key: STRIPE_CANCEL_URL
+        resources: {}
+status: {}
