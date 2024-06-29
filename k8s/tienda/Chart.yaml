@@ -1,5 +1,5 @@
 apiVersion: v2
-name: tienda
+name: tiendagke
 description: Mi Helm chart para Kubernetes
 
 # A chart can be either an 'application' or a 'library' chart.
